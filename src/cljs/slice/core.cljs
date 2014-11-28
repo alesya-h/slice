@@ -1,56 +1,33 @@
 (ns slice.core
-    (:require [reagent.core :as reagent :refer [atom]]
-              [secretary.core :as secretary :include-macros true]
-              [goog.events :as events]
-              [goog.history.EventType :as EventType])
-    (:import goog.History))
-
-;; -------------------------
-;; State
-(defonce app-state (atom {:text "Hello, this is: "}))
-
-(defn get-state [k & [default]]
-  (clojure.core/get @app-state k default))
-
-(defn put! [k v]
-  (swap! app-state assoc k v))
-
-;; -------------------------
-;; Views
-(defn page1 []
-  [:div [:h2 (get-state :text) "Page 1"]
-   [:div [:a {:href "#/page2"} "go to page 2"]]])
-
-(defn page2 []
-  [:div [:h2 (get-state :text) "Page 2"]
-   [:div [:a {:href "#/"} "go to page 1"]]])
+  (:require [reagent.core :as reagent]
+            [slice.layer :as l]
+            [slice.document :as d]
+            [slice.util :as u]
+            [slice.events :as evt]
+            [clojure.zip :as zip]))
 
 (defn main-page []
-  [:div [(get-state :current-page)]])
+  [l/layers])
 
-;; -------------------------
-;; Routes
-(secretary/set-config! :prefix "#")
+(defn kbd-handler [e]
+  (let [key (.-key e)
+        code (.-keyCode e)]
+    (u/log "keydown " key code)
+    (case key
+      " " (u/alert "SPAAAAACE!")
+      "O" (l/toggle-layer :overlay)
+      "I" (l/toggle-layer :image)
+      "W" (l/toggle-layer :work)
+      "o" (l/pop-layer :overlay)
+      "i" (l/pop-layer :image)
+      "w" (l/pop-layer :work)
+      "Down"  (d/change-current zip/down)
+      "Up"    (d/change-current zip/up)
+      "Left"  (d/change-current zip/prev)
+      "Right" (d/change-current zip/next)
+      nil)))
 
-(secretary/defroute "/" []
-  (put! :current-page page1))
-
-(secretary/defroute "/page2" []
-  (put! :current-page page2))
-
-;; -------------------------
-;; Initialize app
 (defn init! []
-  (reagent/render-component [main-page] (.getElementById js/document "app")))
-
-;; -------------------------
-;; History
-(defn hook-browser-navigation! []
-  (doto (History.)
-    (events/listen
-     EventType/NAVIGATE
-     (fn [event]
-       (secretary/dispatch! (.-token event))))
-    (.setEnabled true)))
-;; need to run this after routes have been defined
-(hook-browser-navigation!)
+  (reagent/render-component [main-page]
+                      (js/document.getElementById "app"))
+  (evt/setup-keyboard-handler! kbd-handler))

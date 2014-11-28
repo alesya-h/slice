@@ -9,7 +9,9 @@
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [reagent "0.4.2"]
                  [reagent-utils "0.1.0"]
+                 [reagent/reagent-cursor "0.1.0"]
                  [secretary "1.2.0"]
+                 [historian "1.0.7"]
                  [org.clojure/clojurescript "0.0-2371" :scope "provided"]
                  [com.cemerick/piggieback "0.1.3"]
                  [weasel "0.4.0-SNAPSHOT"]
@@ -18,6 +20,7 @@
                  [prone "0.6.0"]
                  [compojure "1.2.0"]
                  [selmer "0.7.2"]
+                 [garden "1.2.5"]
                  [environ "1.0.0"]
                  [leiningen "2.5.0"]
                  [figwheel "0.1.5-SNAPSHOT"]
@@ -27,6 +30,7 @@
             [lein-cljsbuild "1.0.3"]
             [lein-environ "1.0.0"]
             [lein-ring "0.8.13"]
+            [cider/cider-nrepl "0.8.1"]
             [lein-asset-minifier "0.2.0"]]
 
   :ring {:handler slice.handler/app}
