@@ -3,7 +3,9 @@
             [historian.core :as hist]))
 
 (def app-state (r/atom {}))
-(hist/record! app-state :app-state)
+
+(defn enable-history! []
+  (hist/record! app-state :app-state))
 
 (defn state-str []
   (pr-str @app-state))

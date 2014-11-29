@@ -3,6 +3,7 @@
             [slice.state :as st]
             [slice.layers :as l]
             [slice.util :as u]
+            [clojure.zip :as zip]
             [slice.input.kb :as kb]))
 
 (defn configure! []
@@ -10,29 +11,32 @@
           {:image {:x 0 :y 0 :src "/images/home_signed.jpg"}
            :mouse-old {:x 0 :y 0}
            :mouse-moving false
-           :mode :normal
+           :mode :document
            :layers [:image
-                    :demo
+                    :document
                     :overlay]
            :document nil})
 
-  (kb/defkbmap :normal
-    { #{} {" "     #(u/alert "SPAAAAACE!")
-           "O"     #(l/toggle-layer :overlay)
-           "I"     #(l/toggle-layer :image)
-           "D"     #(l/toggle-layer :demo)
-           "o"     #(l/pop-layer :overlay)
-           "i"     #(l/pop-layer :image)
-           "d"     #(l/pop-layer :demo)
-           "Down"  #(d/change-current zip/down)
-           "Up"    #(d/change-current zip/up)
-           "Left"  #(d/change-current zip/prev)
-           "Right" #(d/change-current zip/next)}})
+  (kb/defkbmap :document
+    { #{} {
+           " " #(u/alert "SPAAAAACE!")
+           "o" #(l/toggle-layer :overlay)
+           "u" #(st/undo!)
+           "r" #(st/redo!)
+           }
 
-  (kb/defkbmap :edit
+      #{:ctrl} {
+                "Down"  #(d/change-current zip/down)
+                "Up"    #(d/change-current zip/up)
+                "Left"  #(d/change-current zip/prev)
+                "Right" #(d/change-current zip/next)
+                }})
+
+  (kb/defkbmap :css
     { #{} {} }))
 
 (defn setup! []
   (configure!)
   (kb/setup!)
-  (d/new-document))
+  (d/new-document)
+  (st/enable-history!))

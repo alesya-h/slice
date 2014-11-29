@@ -2,11 +2,11 @@
   (:require [slice.state :as st]
             [slice.components.image :as image]
             [slice.components.overlay :as overlay]
-            [slice.components.demo :as demo]))
+            [slice.components.document :as document]))
 
 (def layers-db
   {:image image/component
-   :demo demo/component
+   :document document/component
    :overlay overlay/component})
 
 (defn get-layer-component [layer]

@@ -6,7 +6,7 @@
   [(disj #{(if (.-ctrlKey e) :ctrl)
            (if (.-shiftKey e) :shift)
            (if (.-altKey e) :alt)} nil)
-   (.-key e)])
+   (or (.-key e) (.-keyIdentifier e))])
 
 (def mode-maps (atom {}))
 
@@ -21,7 +21,6 @@
   (let [keys (evt->key e) ;; [#{:ctrl} "y"]
         mode (st/get-state :mode)
         kb-map (@mode-maps mode)]
-    (u/logp keys)
     (run-kb-map kb-map keys)))
 
 (defn setup! []
