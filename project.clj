@@ -17,7 +17,6 @@
                  [weasel "0.4.0-SNAPSHOT"]
                  [ring "1.3.1"]
                  [ring/ring-defaults "0.1.2"]
-                 [prone "0.6.0"]
                  [compojure "1.2.0"]
                  [selmer "0.7.2"]
                  [garden "1.2.5"]

@@ -1,22 +1,9 @@
 (ns slice.state
-  (:require #_[historian.core :as hist]
-            [clojure.zip :as zip]
-            [reagent.core :as r]))
+  (:require [reagent.core :as r]
+            [historian.core :as hist]))
 
-(def app-state
-  (r/atom
-   {:image {:x 0 :y 0 :src "/images/home_signed.jpg"}
-    :mouse-old {:x 0 :y 0}
-    :mouse-moving false
-    :layers [
-             :image
-             :work
-             :overlay
-             ]
-    :document (zip/xml-zip
-               {:tag :div :attrs {:class "current"}
-                :content [{:tag :div
-                           :content []}]})}))
+(def app-state (r/atom {}))
+(hist/record! app-state :app-state)
 
 (defn state-str []
   (pr-str @app-state))
@@ -32,3 +19,6 @@
 
 (defn update-in! [ks f]
   (swap! app-state update-in ks f))
+
+(def undo! hist/undo!)
+(def redo! hist/redo!)

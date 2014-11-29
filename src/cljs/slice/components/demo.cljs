@@ -1,4 +1,4 @@
-(ns slice.layers.work
+(ns slice.components.demo
   (:require [slice.document :as doc]))
 
 (defn display-tag [tag]
@@ -8,6 +8,6 @@
 (defn display-tags [tags]
   (mapv display-tag tags))
 
-(defn work-layer []
+(defn component []
   [:div.work.layer
    (display-tag (doc/document-root))])

@@ -1,6 +1,6 @@
-(ns slice.layers.image
+(ns slice.components.image
   (:require [slice.state :as st]
-            [slice.events :as e]))
+            [slice.input.mouse :as m]))
 
 (defn get-image []
   (st/get-state :image))
@@ -15,11 +15,11 @@
                  :x (+ x dx)
                  :y (+ y dy)))))
 
-(defn image-layer []
+(defn component []
   (let [{:keys [src x y]} (get-image)]
     [:div.image.layer
-     {:on-mouse-down e/mouse-down
-      :on-mouse-up   e/mouse-up
-      :on-mouse-move (e/mouse-move move-image)
+     {:on-mouse-down m/mouse-down
+      :on-mouse-up   m/mouse-up
+      :on-mouse-move (m/mouse-move move-image)
       :style {:background-position (str x "px " y "px")
               :background-image (str "url('" src "')")}}]))

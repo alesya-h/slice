@@ -1,21 +1,5 @@
-(ns slice.layer
-  (:require [slice.state :as st]
-            [slice.layers.image :as image]
-            [slice.layers.overlay :as overlay]
-            [slice.layers.work :as work]))
-
-(def layers-db
-  {:image image/image-layer
-   :work work/work-layer
-   :overlay overlay/overlay})
-
-(defn get-layer-component [layer]
-  [(layers-db layer)])
-
-(defn layers []
-  (->> (st/get-state :layers)
-       (map get-layer-component)
-       (into [:div.layers])))
+(ns slice.layers
+  (:require [slice.state :as st]))
 
 (defn layer-enabled? [layer]
   ((set (st/get-state :layers)) layer))

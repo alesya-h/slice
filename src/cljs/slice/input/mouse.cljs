@@ -1,4 +1,4 @@
-(ns slice.events
+(ns slice.input.mouse
   (:require [slice.state :as st]))
 
 (defn mouse-down [evt]
@@ -20,6 +20,3 @@
         (st/put-in! [:mouse-old :x] x)
         (st/put-in! [:mouse-old :y] y)
         (f dx dy)))))
-
-(defn setup-keyboard-handler! [handler]
-  (set! (.-onkeydown js/document.body) handler))

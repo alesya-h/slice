@@ -10,6 +10,12 @@
 (defn put-document [document]
   (st/put! :document document))
 
+(defn new-document []
+  (put-document (zip/xml-zip
+                      {:tag :div :attrs {:class "current"}
+                       :content [{:tag :div
+                                  :content []}]})))
+
 (defn document-node []
   (zip/node (get-document)))
 
