@@ -11,7 +11,7 @@
   (let [{:keys [x y]} (st/get-state :tools)]
     (st/put! :tools
              {:x (+ x dx)
-              :y (- y dy)})))
+              :y (+ y dy)})))
 
 (defn tools []
   (let [{:keys [x y]} (st/get-state :tools)
@@ -19,7 +19,7 @@
     [:div.tools {:on-mouse-down mouse/mouse-down
                  :on-mouse-up mouse/mouse-up
                  :on-mouse-move (mouse/mouse-move move-tools)
-                 :style {:left x :bottom y}}
+                 :style {:left x :top y}}
      [:h3 (str "Mode: " (st/get-state :mode))]
      ;; [:h3 "State:"]
      ;; [:p.state (pr-str (dissoc (st/current-state) :document))]
