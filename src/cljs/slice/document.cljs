@@ -92,3 +92,6 @@
     (if new-classes-str
      (change! edit-protected assoc
              :classes (str/split new-classes-str #"\s")))))
+
+(defn current-classes []
+  (:classes (document-node)))

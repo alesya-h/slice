@@ -11,3 +11,7 @@
 
 (defn ask! [text value]
   (js/prompt text value))
+
+(defn in-bounds [min-val value max-val]
+  (min (max min-val value)
+       max-val))

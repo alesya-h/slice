@@ -3,6 +3,8 @@
             [slice.input.mouse :as mouse]
             [slice.components.document :as cdoc]
             [slice.components.dom :as dom]
+            [slice.components.css :as css]
+            [slice.css :as style]
             [slice.document :as doc]))
 
 (defn move-tools [dx dy]
@@ -28,10 +30,9 @@
        [:h3 "Document:"]
        [dom/component]]
       [:div.style {:class (if (= mode :css) "active")}
-       [:h3 "Style:"]
-       [dom/component]]]
+       [:h3 (str "Style: " (style/current-class))]
+       [css/component]]]
      [:p.document (pr-str (cdoc/component))]]))
-
 
 (defn component []
   [:div.overlay.layer
