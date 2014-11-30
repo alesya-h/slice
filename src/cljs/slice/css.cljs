@@ -12,7 +12,7 @@
 
 (defn to-garden-style [rules]
   (into {}
-        (for [[attribute {:keys [value unit]}] rules]
+        (for [{:keys [attribute value unit]} rules]
           [attribute (str value unit)])))
 
 (defn to-garden-css [stylesheet]
@@ -31,9 +31,9 @@
 
 (def sample
   {"foo" {:idx 0
-          :rules [["border" {:value "1px black solid"}]
-                  ["margin" {:value 42 :unit "px"}]
-                  ["border" {:value 10 :unit "px"}]]}})
+          :rules [{:attribute "border" :value "1px black solid"}
+                  {:attribute "margin" :value 42 :unit "px"}
+                  {:attribute "border" :value 10 :unit "px"}]}})
 
 (defn new-stylesheet! []
   (put-stylesheet! sample))
@@ -41,17 +41,29 @@
 (defn add-rule [style attribute value]
   (let [new-idx (count (:rules style))]
     (as-> style %
-          (update-in % [:rules] conj [attribute {:value value}])
+          (update-in % [:rules] conj {:attribute attribute :value value})
           (assoc-in  % [:idx] new-idx))))
 
 (defn set-unit [{:keys [idx rules] :as style} unit]
   (if idx
-    (assoc-in style [:rules idx 1 :unit] unit)
+    (assoc-in style [:rules idx :unit] unit)
+    style))
+
+(defn update-value [{:keys [idx rules] :as style} f]
+  (if idx
+    (update-in style [:rules idx :value] f)
     style))
 
 (defn set-value [{:keys [idx rules] :as style} value]
   (if idx
-    (assoc-in style [:rules idx 1 :value] value)
+    (assoc-in style [:rules idx :value] value)
+    style))
+
+(defn delete-rule [{:keys [idx rules] :as style}]
+  (if idx
+    (assoc style
+      :rules (u/vec-remove rules idx)
+      :idx (u/in-bounds 0 (dec idx) (count rules)))
     style))
 
 (defn navigate-rules [style direction]
@@ -105,3 +117,12 @@
 
 (defn current-value []
   (:value (current-rule)))
+
+(defn delete-rule! []
+  (change-style! delete-rule))
+
+(defn inc! []
+  (change-style! update-value inc))
+
+(defn dec! []
+  (change-style! update-value dec))

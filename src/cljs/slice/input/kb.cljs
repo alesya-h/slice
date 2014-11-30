@@ -74,7 +74,8 @@
         mode (st/get-state :mode)
         kb-map (@mode-maps mode)]
     (js/console.log (.-keyCode e))
-    (run-kb-map kb-map keys)))
+    (run-kb-map kb-map keys))
+  (.stopPropagation e))
 
 (defn change-mode [mode]
   (st/put! :mode mode))

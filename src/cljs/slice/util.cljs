@@ -15,3 +15,8 @@
 (defn in-bounds [min-val value max-val]
   (min (max min-val value)
        max-val))
+
+(defn vec-remove
+  "remove elem in coll"
+  [coll pos]
+  (vec (concat (subvec coll 0 pos) (subvec coll (inc pos)))))

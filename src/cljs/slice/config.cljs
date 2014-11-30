@@ -53,8 +53,11 @@
            "Space" #(l/toggle-layer :overlay)
            "h" #(kb/change-mode :html)
            "u" #(css/set-unit!)
-           "v" #(css/set-value!)
+           "c" #(css/set-value!)
            "o" #(css/new-rule!)
+           "n" #(css/new-rule!)
+           "d" #(css/delete-rule!)
+           "x" #(css/delete-rule!)
            }
       #{:shift} {
                  "u" #(st/undo!)

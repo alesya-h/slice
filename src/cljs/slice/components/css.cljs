@@ -8,10 +8,10 @@
          (map #(str %2 %) classes (repeat "."))))
 
 (defn mark-current [current-idx]
-  (fn [idx [attribute value]]
+  (fn [idx {:keys [attribute unit value]}]
     [:tr {:class (if (= idx current-idx) "current")}
      [:td (str attribute ": ")]
-     [:td (str (:value value) (:unit value))]]))
+     [:td (str value unit)]]))
 
 (defn render-rules [{:keys [idx rules]}]
   [:table
