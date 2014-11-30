@@ -1,6 +1,7 @@
 (ns slice.state
   (:require [reagent.core :as r]
-            [historian.core :as hist]))
+            [clojure.zip :as zip]
+            [historian.core :as hist :include-macros true]))
 
 (def app-state (r/atom {}))
 
@@ -24,3 +25,12 @@
 
 (def undo! hist/undo!)
 (def redo! hist/redo!)
+
+(defn dump []
+  {:state (dissoc @app-state :document)
+   :document (zip/root (get-state :document))})
+
+(defn restore! [{:keys [state document] :as data}]
+  (reset! app-state
+          (assoc state :document
+                 (zip/xml-zip document))))

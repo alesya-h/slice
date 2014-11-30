@@ -21,10 +21,10 @@
                  :on-mouse-move (mouse/mouse-move move-tools)
                  :style {:left x :bottom y}}
      [:h3 (str "Mode: " (st/get-state :mode))]
-     [:h3 "State:"]
-     [:p.state (pr-str (dissoc (st/current-state) :document))]
-     [:h3 "Current node:"]
-     [:p.node (pr-str (dissoc (doc/document-node) :content))]
+     ;; [:h3 "State:"]
+     ;; [:p.state (pr-str (dissoc (st/current-state) :document))]
+     ;; [:h3 "Current node:"]
+     ;; [:p.node (pr-str (dissoc (doc/document-node) :content))]
      [:div.dom-and-css
       [:div.document {:class (if (= mode :html) "active")}
        [:h3 "Document:"]
@@ -32,7 +32,8 @@
       [:div.style {:class (if (= mode :css) "active")}
        [:h3 (str "Style: " (style/current-class))]
        [css/component]]]
-     [:p.document (pr-str (cdoc/component))]]))
+     ;; [:p.document (pr-str (cdoc/component))]
+     ]))
 
 (defn component []
   [:div.overlay.layer

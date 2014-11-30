@@ -65,13 +65,13 @@
       (edit-protected make-current)
       (put-document)))
 
-(defn cut! []
-  (copy!)
-  (change! zip/remove))
-
 (defn copy! []
   (st/put! :document-clip
            (document-node)))
+
+(defn cut! []
+  (copy!)
+  (change! zip/remove))
 
 (defn paste-first! []
   (change! zip/insert-child (st/get-state :document-clip)))
@@ -92,6 +92,12 @@
     (if new-classes-str
      (change! edit-protected assoc
              :classes (str/split new-classes-str #"\s")))))
+
+(defn set-text! []
+  (let [content (:content (document-node))]
+    (if (or (empty? content) (string? content))
+      (if-let [text (u/ask! "Text: " (str content))]
+        (change! edit-protected assoc :content text)))))
 
 (defn current-classes []
   (:classes (document-node)))

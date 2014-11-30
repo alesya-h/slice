@@ -75,10 +75,10 @@
         kb-map (@mode-maps mode)]
     (js/console.log (.-keyCode e))
     (run-kb-map kb-map keys))
-  (.stopPropagation e))
+  (.preventDefault e))
 
 (defn change-mode [mode]
   (st/put! :mode mode))
 
 (defn setup! []
-  (set! (.-onkeydown js/document.body) handler))
+  (.addEventListener js/window "keydown" handler))

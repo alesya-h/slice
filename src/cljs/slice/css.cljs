@@ -38,6 +38,22 @@
 (defn new-stylesheet! []
   (put-stylesheet! sample))
 
+(defn current-class []
+  (first (doc/current-classes)))
+
+(defn current-style []
+  ((get-stylesheet) (current-class)))
+
+(defn current-rule []
+  (let [{:keys [idx rules]} (current-style)]
+    (get rules idx)))
+
+(defn current-unit []
+  (:unit (current-rule)))
+
+(defn current-value []
+  (:value (current-rule)))
+
 (defn add-rule [style attribute value]
   (let [new-idx (count (:rules style))]
     (as-> style %
@@ -57,6 +73,16 @@
 (defn set-value [{:keys [idx rules] :as style} value]
   (if idx
     (assoc-in style [:rules idx :value] value)
+    style))
+
+(defn fix-value [value]
+  (if (= (str (int value)) value)
+    (int value)
+    value))
+
+(defn fix-style-value [{:keys [idx rules] :as style} value]
+  (if idx
+    (update-in style [:rules idx :value] fix-value)
     style))
 
 (defn delete-rule [{:keys [idx rules] :as style}]
@@ -83,6 +109,7 @@
 (defn change-style! [f & args]
   (-> (get-stylesheet)
       (update-style (current-class) f args)
+      (update-style (current-class) fix-style-value args)
       (put-stylesheet!)))
 
 (defn new-rule! []
@@ -101,22 +128,6 @@
 
 (defn set-unit! []
   (change-style! set-unit (u/ask! "Unit:" (current-unit))))
-
-(defn current-class []
-  (first (doc/current-classes)))
-
-(defn current-style []
-  ((get-stylesheet) (current-class)))
-
-(defn current-rule []
-  (let [{:keys [idx rules]} (current-style)]
-    (get rules idx)))
-
-(defn current-unit []
-  (:unit (current-rule)))
-
-(defn current-value []
-  (:value (current-rule)))
 
 (defn delete-rule! []
   (change-style! delete-rule))
