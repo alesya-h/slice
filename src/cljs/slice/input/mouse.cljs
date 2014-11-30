@@ -1,13 +1,16 @@
 (ns slice.input.mouse
-  (:require [slice.state :as st]))
+  (:require [slice.state :as st]
+            [historian.core :as hist :include-macros true]))
 
 (defn mouse-down [evt]
-  (st/put! :mouse-old {:x (.-screenX evt)
-                       :y (.-screenY evt)}
-           :mouse-moving true))
+  (hist/off-the-record
+   (st/put! :mouse-old {:x (.-screenX evt)
+                        :y (.-screenY evt)}
+            :mouse-moving true)))
 
 (defn mouse-up [_]
-  (st/put! :mouse-moving false))
+  (st/put! :mouse-moving false)
+  (hist/trigger-record!))
 
 (defn mouse-move [f]
   (if (st/get-state :mouse-moving)
@@ -17,6 +20,6 @@
             y (.-screenY evt)
             dx (- x old-x)
             dy (- y old-y)]
-        (st/put-in! [:mouse-old :x] x)
-        (st/put-in! [:mouse-old :y] y)
-        (f dx dy)))))
+        (hist/off-the-record
+         (st/put! :mouse-old {:x x :y y})
+         (f dx dy))))))

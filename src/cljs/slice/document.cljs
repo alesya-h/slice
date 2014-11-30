@@ -17,28 +17,6 @@
    :current false
    :content children})
 
-(defn make-empty-div []
-  (make-tag :div []))
-
-(defn new-document []
-  (put-document
-   (zip/xml-zip
-    (make-current
-     (make-tag :div
-               [(make-empty-div)])))))
-
-(defn document-node []
-  (zip/node (get-document)))
-
-(defn document-root []
-  (zip/root (get-document)))
-
-(defn protected [zipper f]
-  (let [new-zipper (f zipper)]
-    (if (zip/branch? new-zipper)
-      new-zipper
-      zipper)))
-
 (defn add-class [tag class]
   (update-in tag [:classes] conj class))
 
@@ -51,20 +29,66 @@
 (defn make-non-current [tag]
   (assoc tag :current false))
 
-(defn set-attr [tag attr value]
-  (assoc-in tag [:attrs attr] value))
+(def empty-div (make-tag :div []))
+(def new-div (add-class empty-div "new-div"))
 
-(defn update-attr [tag attr f]
-  (update-in tag [:attrs attr] f))
+(defn new-document []
+  (put-document
+   (zip/xml-zip
+    (make-current
+     (make-tag :div
+               [empty-div])))))
 
-(defn edit-protected [zipper f]
+(defn document-node []
+  (zip/node (get-document)))
+
+(defn document-root []
+  (zip/root (get-document)))
+
+(defn protected [zipper f]
+  (let [new-zipper (f zipper)]
+    (if (and new-zipper (zip/branch? new-zipper))
+      new-zipper
+      (do
+        (u/log "protection error")
+        zipper))))
+
+(defn edit-protected [zipper f & args]
   (if (zip/branch? zipper)
-    (zip/edit zipper f)
+    (apply zip/edit zipper f args)
     zipper))
 
-(defn change-current [f]
+(defn change! [f & args]
   (-> (get-document)
       (edit-protected make-non-current)
-      (protected f)
+      (protected #(apply f % args))
       (edit-protected make-current)
       (put-document)))
+
+(defn cut! []
+  (copy!)
+  (change! zip/remove))
+
+(defn copy! []
+  (st/put! :document-clip
+           (document-node)))
+
+(defn paste-first! []
+  (change! zip/insert-child (st/get-state :document-clip)))
+
+(defn paste-last! []
+  (change! zip/append-child (st/get-state :document-clip)))
+
+(defn set-tag-name! []
+  (let [current-tag (:tag (document-node))
+        new-tag (u/ask! "New tag name: " (name current-tag))]
+    (if new-tag
+      (change! edit-protected assoc :tag (keyword new-tag)))))
+
+(defn set-classes! []
+  (let [current-classes (:classes (document-node))
+        classes-str (str/join " " current-classes)
+        new-classes-str (u/ask! "New classes:" classes-str)]
+    (if new-classes-str
+     (change! edit-protected assoc
+             :classes (str/split new-classes-str #"\s")))))

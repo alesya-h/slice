@@ -1,5 +1,6 @@
 (ns slice.components.document
   (:require [slice.document :as doc]
+            [slice.css :as css]
             [slice.util :as u]
             [clojure.string :as str]))
 
@@ -28,4 +29,5 @@
 
 (defn component []
   [:div.work.layer
+   [:style (css/stylesheet)]
    (display-tag (doc/document-root))])

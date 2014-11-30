@@ -7,8 +7,8 @@
 (defn enable-history! []
   (hist/record! app-state :app-state))
 
-(defn state-str []
-  (pr-str @app-state))
+(defn current-state []
+  @app-state)
 
 (defn get-state [k & [default]]
   (get @app-state k default))

@@ -8,3 +8,6 @@
 
 (defn alert [& args]
   (js/alert (apply str args)))
+
+(defn ask! [text value]
+  (js/prompt text value))
