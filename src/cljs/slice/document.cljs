@@ -47,11 +47,15 @@
 
 (defn protected [zipper f]
   (let [new-zipper (f zipper)]
-    (if (and new-zipper (zip/branch? new-zipper))
-      new-zipper
-      (do
-        (u/log "protection error")
-        zipper))))
+    (cond
+     (nil? new-zipper) (do
+                         (u/log "protection error")
+                         zipper)
+     (zip/branch? new-zipper) new-zipper
+     (string? (zip/node new-zipper)) (zip/up new-zipper)
+     :else (do
+             (u/log "something is wrong")
+             zipper))))
 
 (defn edit-protected [zipper f & args]
   (if (zip/branch? zipper)
