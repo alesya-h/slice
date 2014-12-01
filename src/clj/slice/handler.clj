@@ -1,5 +1,7 @@
 (ns slice.handler
   (:require [slice.dev :refer [browser-repl start-figwheel]]
+            [hiccup.page :as hiccup]
+            [clojure.edn :as edn]
             [compojure.core :refer [GET POST defroutes]]
             [compojure.route :refer [not-found resources]]
             [ring.middleware.defaults :refer [api-defaults wrap-defaults]]
@@ -12,8 +14,14 @@
 
   (GET "/state" [] (slurp "state.edn"))
   (POST "/state" {:keys [body params]}
-        (spit "state.edn" (slurp body))
-        "saved")
+        (let [new-state (-> body slurp edn/read-string)]
+          (spit "document.html"
+                (hiccup/html5
+                 (hiccup/include-css "document.css")
+                 (:html new-state)))
+          (spit "document.css" (:css new-state))
+          (spit "state.edn" (dissoc new-state :html :css))
+          "saved"))
 
   (resources "/")
   (not-found "Not Found"))

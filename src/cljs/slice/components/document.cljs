@@ -29,7 +29,10 @@
 (defn display-tags [tags]
   (mapv display-tag tags))
 
+(defn document []
+  (display-tag (doc/document-root)))
+
 (defn component []
   [:div.work.layer
    [:style (css/stylesheet)]
-   (display-tag (doc/document-root))])
+   [document]])

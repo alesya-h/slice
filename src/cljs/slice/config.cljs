@@ -47,8 +47,8 @@
                  "Right" #(kb/change-mode :css)
                  "o" #(d/change! zip/insert-child d/new-div)
                  "t" #(d/set-tag-name!)
-                 "Down"  #(d/change! zip/right)
-                 "Up"    #(d/change! zip/left)
+                 "Down"  #(d/change! zip/next)
+                 "Up"    #(d/change! zip/prev)
                  }
       #{:ctrl} {
                 "r" #(st/redo!)
@@ -87,6 +87,8 @@
                 }
       #{:shift} {
                  "Left" #(kb/change-mode :html)
+                 "Down"  #(d/change! zip/next)
+                 "Up"    #(d/change! zip/prev)
                  "u" #(css/set-unit!)
                  }}))
 
@@ -97,5 +99,5 @@
   (d/new-document)
   (d/change! d/edit-protected d/add-class "foo")
   (css/new-stylesheet!)
-  (st/enable-history!)
-  (sync/setup!))
+  (sync/setup!)
+  (st/enable-history!))

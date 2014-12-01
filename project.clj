@@ -11,6 +11,7 @@
                  [reagent-utils "0.1.0"]
                  [com.cognitect/transit-cljs "0.8.192"]
                  [com.cognitect/transit-clj "0.8.259"]
+                 [hiccup "1.0.5"]
                  [cljs-ajax "0.3.3"]
                  [reagent/reagent-cursor "0.1.0"]
                  [secretary "1.2.0"]
