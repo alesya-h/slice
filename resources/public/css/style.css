@@ -9,7 +9,7 @@
 }
 
 .current {
-    background-color: rgba(127,127,255,0.5);
+    background-color: rgba(127,127,255,0.3);
 }
 
 .layer {
@@ -25,9 +25,8 @@
     height: 10000px;
 }
 
-.work.layer .box {
-    background: yellow;
-    border: 1px black solid;
+.work.layer {
+    opacity: 0.5;
 }
 
 /* .overlay { */
