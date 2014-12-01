@@ -5,6 +5,10 @@
 
 (def app-state (r/atom {}))
 
+(defn disable-history! []
+  (if (and hist/overseer (not (empty? @hist/overseer)))
+    (hist/stop-record! :app-state)))
+
 (defn enable-history! []
   (hist/record! app-state :app-state))
 

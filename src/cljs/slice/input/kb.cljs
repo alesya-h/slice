@@ -67,15 +67,15 @@
 
 (defn run-kb-map [mode-map keys]
   (if-let [f (get-in mode-map keys)]
-    (f)))
+    (do (f) true)
+    false))
 
 (defn handler [e]
   (let [keys (evt->key e) ;; [#{:ctrl} "y"]
         mode (st/get-state :mode)
         kb-map (@mode-maps mode)]
-    (js/console.log (.-keyCode e))
-    (run-kb-map kb-map keys))
-  (.preventDefault e))
+    (if (run-kb-map kb-map keys)
+      (.preventDefault e))))
 
 (defn change-mode [mode]
   (st/put! :mode mode))

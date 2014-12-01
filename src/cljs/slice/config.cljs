@@ -15,6 +15,7 @@
            :mouse-old {:x 0 :y 0}
            :tools {:x 50 :y 50}
            :mouse-moving false
+           :active-class 0
            :mode :html
            :layers [:image
                     :document
@@ -25,10 +26,13 @@
   (kb/defkbmap :html
     { #{} {
            "Space" #(l/toggle-layer :overlay)
+           "1" #(css/set-active-class! 0)
+           "2" #(css/set-active-class! 1)
+           "3" #(css/set-active-class! 2)
            "o" #(d/change! zip/append-child d/new-div)
            "s" #(kb/change-mode :css)
            "h" #(kb/change-mode :css)
-           "t" #(d/set-text!)
+           "t" #(d/add-text-last!)
            "c" #(d/set-classes!)
            "u" #(st/undo!)
            "x" #(d/cut!)
@@ -43,6 +47,8 @@
                  "Right" #(kb/change-mode :css)
                  "o" #(d/change! zip/insert-child d/new-div)
                  "t" #(d/set-tag-name!)
+                 "Down"  #(d/change! zip/right)
+                 "Up"    #(d/change! zip/left)
                  }
       #{:ctrl} {
                 "r" #(st/redo!)
@@ -68,6 +74,9 @@
            "n" #(css/new-rule!)
            "d" #(css/delete-rule!)
            "x" #(css/delete-rule!)
+           "1" #(css/set-active-class! 0)
+           "2" #(css/set-active-class! 1)
+           "3" #(css/set-active-class! 2)
            "Left" #(css/dec!)
            "Right" #(css/inc!)
            "Up" #(css/prev-rule!)
@@ -82,11 +91,11 @@
                  }}))
 
 (defn setup! []
+  (st/disable-history!)
   (configure!)
   (kb/setup!)
   (d/new-document)
   (d/change! d/edit-protected d/add-class "foo")
   (css/new-stylesheet!)
   (st/enable-history!)
-  (sync/setup!)
-  )
+  (sync/setup!))

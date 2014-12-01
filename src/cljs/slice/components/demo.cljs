@@ -2,8 +2,10 @@
   (:require [slice.document :as doc]))
 
 (defn display-tag [tag]
-  (into [(:tag tag) (:attrs tag)]
-        (map display-tag (:content tag))))
+  (if (associative? tag)
+    (into [(:tag tag) (:attrs tag)]
+          (map display-tag (:content tag)))
+    tag))
 
 (defn display-tags [tags]
   (mapv display-tag tags))

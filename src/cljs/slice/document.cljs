@@ -66,8 +66,9 @@
       (put-document)))
 
 (defn copy! []
-  (st/put! :document-clip
-           (document-node)))
+  (->> (document-node)
+       (make-non-current)
+       (st/put! :document-clip)))
 
 (defn cut! []
   (copy!)
@@ -86,18 +87,19 @@
       (change! edit-protected assoc :tag (keyword new-tag)))))
 
 (defn set-classes! []
-  (let [current-classes (:classes (document-node))
-        classes-str (str/join " " current-classes)
+  (let [classes-str (str/join " " (current-classes))
         new-classes-str (u/ask! "New classes:" classes-str)]
     (if new-classes-str
      (change! edit-protected assoc
              :classes (str/split new-classes-str #"\s")))))
 
-(defn set-text! []
-  (let [content (:content (document-node))]
-    (if (or (empty? content) (string? content))
-      (if-let [text (u/ask! "Text: " (str content))]
-        (change! edit-protected assoc :content text)))))
+(defn add-text-first! []
+  (if-let [text (u/ask! "Text: " (str content))]
+    (change! zip/insert-child text)))
+
+(defn add-text-last! []
+  (if-let [text (u/ask! "Text: " (str content))]
+    (change! zip/append-child text)))
 
 (defn current-classes []
   (:classes (document-node)))

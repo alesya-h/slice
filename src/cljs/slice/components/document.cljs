@@ -20,9 +20,11 @@
       add-classes))
 
 (defn display-tag [the-tag]
-  (let [{:keys [tag attrs content]} (preprocess the-tag)]
-    (into [tag attrs]
-          (map display-tag content))))
+  (if (associative? the-tag)
+    (let [{:keys [tag attrs content]} (preprocess the-tag)]
+      (into [tag attrs]
+            (map display-tag content)))
+    the-tag))
 
 (defn display-tags [tags]
   (mapv display-tag tags))

@@ -35,11 +35,23 @@
                   {:attribute "margin" :value 42 :unit "px"}
                   {:attribute "border" :value 10 :unit "px"}]}})
 
+(defn set-active-class! [n]
+  (st/put! :active-class n))
+
+(defn active-class []
+  (st/get-state :active-class))
+
 (defn new-stylesheet! []
   (put-stylesheet! sample))
 
+(defn find-current-class [prev counter seq]
+  (cond
+   (empty? seq) prev
+   (<= counter 0) (first seq)
+   :else (recur (first seq) (dec counter) (rest seq))))
+
 (defn current-class []
-  (first (doc/current-classes)))
+  (find-current-class nil (active-class) (doc/current-classes)))
 
 (defn current-style []
   ((get-stylesheet) (current-class)))
@@ -92,12 +104,13 @@
       :idx (u/in-bounds 0 (dec idx) (count rules)))
     style))
 
-(defn navigate-rules [style direction]
-  (let [{:keys [idx rules]} style
-        max-idx (dec (count rules))
-        new-idx (direction idx)
-        result-idx (u/in-bounds 0 new-idx max-idx)]
-    (assoc style :idx result-idx)))
+(defn navigate-rules [{:keys [idx rules] :as style} direction]
+  (if (empty? rules)
+    style
+    (let [max-idx (dec (count rules))
+          new-idx (direction idx)
+          result-idx (u/in-bounds 0 new-idx max-idx)]
+      (assoc style :idx result-idx))))
 
 (def blank-style {:rules []})
 
