@@ -15,11 +15,12 @@
   (GET "/state" [] (slurp "state.edn"))
   (POST "/state" {:keys [body params]}
         (let [new-state (-> body slurp edn/read-string)]
-          (spit "document.html"
+          (spit "resources/public/document.html"
                 (hiccup/html5
+                 (hiccup/include-css "default.css")
                  (hiccup/include-css "document.css")
                  (:html new-state)))
-          (spit "document.css" (:css new-state))
+          (spit "resources/public/document.css" (:css new-state))
           (spit "state.edn" (dissoc new-state :html :css))
           "saved"))
 
