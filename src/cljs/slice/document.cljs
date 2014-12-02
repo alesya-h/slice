@@ -15,6 +15,7 @@
    :classes #{}
    :attrs {}
    :current false
+   :collapsed false
    :content children})
 
 (defn add-class [tag class]
@@ -83,6 +84,9 @@
 
 (defn paste-last! []
   (change! zip/append-child (st/get-state :document-clip)))
+
+(defn collapse-or-expand-current! []
+  (change! edit-protected update-in [:collapsed] not))
 
 (defn set-tag-name! []
   (let [current-tag (:tag (document-node))

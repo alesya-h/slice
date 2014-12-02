@@ -37,6 +37,7 @@
            "u" #(st/undo!)
            "x" #(d/cut!)
            "d" #(d/cut!)
+           "f" #(d/collapse-or-expand-current!)
            "Down"  #(d/change! zip/down)
            "Up"    #(d/change! zip/up)
            "Left"  #(d/change! zip/left)

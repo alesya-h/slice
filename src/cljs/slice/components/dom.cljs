@@ -8,10 +8,12 @@
 
 (defn render-tag [the-tag]
   (if (associative? the-tag)
-    (let [{:keys [tag classes current attrs content]} the-tag]
+    (let [{:keys [tag classes current attrs content collapsed]} the-tag]
       [:div {:class (str "tag" (if current " current"))}
        [:span.tag-name (label tag classes)]
-       (map render-tag content)])))
+       (if collapsed
+         "..."
+         (map render-tag content))])))
 
 (defn component []
   [:div.dom
