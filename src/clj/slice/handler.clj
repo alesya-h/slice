@@ -12,16 +12,16 @@
 (defroutes routes
   (GET "/" [] (render-file "templates/index.html" {:dev (env :dev?)}))
 
-  (GET "/state" [] (slurp "state.edn"))
+  (GET "/state" [] (slurp "work/state.edn"))
   (POST "/state" {:keys [body params]}
         (let [new-state (-> body slurp edn/read-string)]
-          (spit "resources/public/document.html"
+          (spit "work/document.html"
                 (hiccup/html5
-                 (hiccup/include-css "default.css")
+                 (hiccup/include-css "external.css")
                  (hiccup/include-css "document.css")
                  (:html new-state)))
-          (spit "resources/public/document.css" (:css new-state))
-          (spit "state.edn" (dissoc new-state :html :css))
+          (spit "work/document.css" (:css new-state))
+          (spit "work/state.edn" (dissoc new-state :html :css))
           "saved"))
 
   (resources "/")
