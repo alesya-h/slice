@@ -31,7 +31,6 @@
   (assoc tag :current false))
 
 (def empty-div (make-tag :div []))
-(def new-div (add-class empty-div "new-div"))
 
 (defn new-document []
   (put-document
@@ -45,6 +44,9 @@
 
 (defn document-root []
   (zip/root (get-document)))
+
+(defn current-classes []
+  (:classes (document-node)))
 
 (defn protected [zipper f]
   (let [new-zipper (f zipper)]
@@ -90,7 +92,7 @@
 
 (defn set-tag-name! []
   (let [current-tag (:tag (document-node))
-        new-tag (u/ask! "New tag name: " (name current-tag))]
+        new-tag (u/ask! "New tag name:" (name current-tag))]
     (if new-tag
       (change! edit-protected assoc :tag (keyword new-tag)))))
 
@@ -102,12 +104,9 @@
              :classes (str/split new-classes-str #"\s")))))
 
 (defn add-text-first! []
-  (if-let [text (u/ask! "Text: " (str content))]
+  (if-let [text (u/ask! "Text:" "")]
     (change! zip/insert-child text)))
 
 (defn add-text-last! []
-  (if-let [text (u/ask! "Text: " (str content))]
+  (if-let [text (u/ask! "Text:" "")]
     (change! zip/append-child text)))
-
-(defn current-classes []
-  (:classes (document-node)))

@@ -2,12 +2,6 @@
   (:require [slice.util :as u]
             [slice.state :as st]))
 
-(defn evt->key [e]
-  [(disj #{(if (.-ctrlKey e) :ctrl)
-           (if (.-shiftKey e) :shift)
-           (if (.-altKey e) :alt)} nil)
-   (code->key (.-keyCode e))])
-
 (def code->key
   {13 "Enter"
    27 "Esc"
@@ -59,6 +53,12 @@
    190 "."
    192 "~"
    })
+
+(defn evt->key [e]
+  [(disj #{(if (.-ctrlKey e) :ctrl)
+           (if (.-shiftKey e) :shift)
+           (if (.-altKey e) :alt)} nil)
+   (code->key (.-keyCode e))])
 
 (def mode-maps (atom {}))
 

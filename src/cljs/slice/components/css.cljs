@@ -4,7 +4,7 @@
 
 (defn mark-current [current-idx]
   (fn [idx {:keys [attribute unit value]}]
-    [:tr {:class (if (= idx current-idx) "current")}
+    [:tr {:class (if (= idx current-idx) "sl__current")}
      [:td (str attribute ": ")]
      [:td (str value unit)]]))
 
@@ -13,5 +13,5 @@
    [:tbody (map-indexed (mark-current idx) rules)]])
 
 (defn component []
-  [:div.css
+  [:div.sl__css
    (render-rules (css/current-style))])

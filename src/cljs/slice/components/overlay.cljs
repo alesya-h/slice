@@ -16,7 +16,7 @@
 (defn tools []
   (let [{:keys [x y]} (st/get-state :tools)
         mode (st/get-state :mode)]
-    [:div.tools {:on-mouse-down mouse/mouse-down
+    [:div.sl__tools {:on-mouse-down mouse/mouse-down
                  :on-mouse-up mouse/mouse-up
                  :on-mouse-move (mouse/mouse-move move-tools)
                  :style {:left x :top y}}
@@ -25,16 +25,16 @@
      ;; [:p.state (pr-str (dissoc (st/current-state) :document))]
      ;; [:h3 "Current node:"]
      ;; [:p.node (pr-str (dissoc (doc/document-node) :content))]
-     [:div.dom-and-css
-      [:div.document {:class (if (= mode :html) "active")}
+     [:div.sl__dom-and-css
+      [:div.sl__document {:class (if (= mode :html) "sl__active")}
        [:h3 "Document:"]
        [dom/component]]
-      [:div.style {:class (if (= mode :css) "active")}
+      [:div.sl__style {:class (if (= mode :css) "sl__active")}
        [:h3 (str "Style: " (style/current-class))]
        [css/component]]]
      ;; [:p.document (pr-str (cdoc/component))]
      ]))
 
 (defn component []
-  [:div.overlay.layer
+  [:div.sl__overlay.sl__layer
    [tools]])

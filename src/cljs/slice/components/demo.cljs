@@ -11,5 +11,5 @@
   (mapv display-tag tags))
 
 (defn component []
-  [:div.work.layer
+  [:div.sl__work.sl__layer
    (display-tag (doc/document-root))])

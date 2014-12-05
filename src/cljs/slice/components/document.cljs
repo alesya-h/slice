@@ -6,7 +6,7 @@
 
 (defn mark-current [tag]
   (if (:current tag)
-    (doc/add-class tag "current")
+    (doc/add-class tag "sl__current")
     tag))
 
 (defn add-classes [tag]
@@ -33,6 +33,6 @@
   (display-tag (doc/document-root)))
 
 (defn component []
-  [:div.work.layer
+  [:div.sl__work.sl__layer
    [:style (css/stylesheet)]
    [document]])

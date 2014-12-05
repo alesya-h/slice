@@ -17,9 +17,12 @@
         (let [new-state (-> body slurp edn/read-string)]
           (spit "work/document.html"
                 (hiccup/html5
-                 (hiccup/include-css "external.css")
-                 (hiccup/include-css "document.css")
-                 (:html new-state)))
+                 [:head
+                  (hiccup/include-css "external.css")
+                  (hiccup/include-css "document.css")
+                  [:meta {:charset "UTF-8"}]]
+                 [:body
+                  (:html new-state)]))
           (spit "work/document.css" (:css new-state))
           (spit "work/state.edn" (dissoc new-state :html :css))
           "saved"))

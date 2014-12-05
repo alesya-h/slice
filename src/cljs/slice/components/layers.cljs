@@ -15,4 +15,4 @@
 (defn component []
   (->> (st/get-state :layers)
        (map get-layer-component)
-       (into [:div.layers])))
+       (into [:div.sl__layers])))

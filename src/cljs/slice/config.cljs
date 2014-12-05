@@ -29,7 +29,7 @@
            "1" #(css/set-active-class! 0)
            "2" #(css/set-active-class! 1)
            "3" #(css/set-active-class! 2)
-           "o" #(d/change! zip/append-child d/new-div)
+           "o" #(d/change! zip/append-child d/empty-div)
            "s" #(kb/change-mode :css)
            "h" #(kb/change-mode :css)
            "t" #(d/add-text-last!)
@@ -46,7 +46,7 @@
 
       #{:shift} {
                  "Right" #(kb/change-mode :css)
-                 "o" #(d/change! zip/insert-child d/new-div)
+                 "o" #(d/change! zip/insert-child d/empty-div)
                  "t" #(d/set-tag-name!)
                  "Down"  #(d/change! zip/next)
                  "Up"    #(d/change! zip/prev)
@@ -56,6 +56,9 @@
                 "x" #(d/cut!)
                 "c" #(d/copy!)
                 "v" #(d/paste-first!)
+                "1" #(l/toggle-layer :image)
+                "2" #(l/toggle-layer :document)
+                "3" #(l/toggle-layer :overlay)
                 }
       #{:ctrl :shift} {
                        "v" #(d/paste-last!)

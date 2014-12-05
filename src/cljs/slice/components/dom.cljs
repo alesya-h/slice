@@ -9,12 +9,12 @@
 (defn render-tag [the-tag]
   (if (associative? the-tag)
     (let [{:keys [tag classes current attrs content collapsed]} the-tag]
-      [:div {:class (str "tag" (if current " current"))}
-       [:span.tag-name (label tag classes)]
+      [:div {:class (str "sl__tag" (if current " sl__current"))}
+       [:span.sl__tag-name (label tag classes)]
        (if collapsed
          "..."
          (map render-tag content))])))
 
 (defn component []
-  [:div.dom
+  [:div.sl__dom
    (render-tag (doc/document-root))])

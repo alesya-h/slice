@@ -1,5 +1,5 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
-.layers {
+.sl__layers {
     /* box-sizing: border-box; */
     width: 100%;
     /* border: 3px red solid; */
@@ -8,24 +8,24 @@
     overflow: hidden;
 }
 
-.current {
+.sl__current {
     background-color: rgba(127,127,255,0.3);
 }
 
-.layer {
+.sl__layer {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
 }
-.image.layer {
+.sl__image.sl__layer {
     background-color: rgba(0,128,0,0.5);
     background-repeat: no-repeat;
     width: 10000px;
     height: 10000px;
 }
 
-.work.layer {
+.sl__work.sl__layer {
     opacity: 0.5;
 }
 
@@ -36,7 +36,7 @@
 /*     background-color: rgba(128,128,128,0.5); */
 /* } */
 
-.tools {
+.sl__tools {
     font-family: mono;
     background: rgba(255,255,255,0.8);
     box-shadow: 5px 5px 10px 5px black;
@@ -47,36 +47,36 @@
     padding: 20px;
 }
 
-.tools p {
+.sl__tools p {
     padding: 10px;
 }
 
-.new-div {
+.sl__new-div {
     padding: 10px;
     margin: 10px;
     border: 1px green solid;
 }
 
-.dom .tag {
+.sl__dom .sl__tag {
     border: 1px green solid;
     margin: 10px;
 }
 
-.dom-and-css {
+.sl__dom-and-css {
     width: 100%;
     display: flex;
     flex-direction: row;
 }
 
-.dom-and-css>div {
+.sl__dom-and-css>div {
     flex-grow: 1;
     flex-basis: 0px;
 }
 
-.dom-and-css>.active {
+.sl__dom-and-css>.sl__active {
     background-color: rgba(255,255,255,0.5);
 }
 
-.tools .style .current {
+.sl__tools .sl__style .sl__current {
     background-color: rgba(127,255,127,0.5);
 }

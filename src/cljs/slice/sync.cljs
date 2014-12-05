@@ -1,6 +1,7 @@
 (ns slice.sync
   (:require [slice.state :as st]
             [clojure.zip :as zip]
+            [historian.core :as hist]
             [slice.css :as css]
             [slice.components.document :as cdoc]
             [ajax.core :refer [GET POST]]))
@@ -16,11 +17,6 @@
           (assoc state :document
                  (zip/xml-zip document))))
 
-(defn setup! []
-  (load!)
-  (add-watch st/app-state :auto-save
-             #(save!)))
-
 (defn load! []
   (GET "/state"
        {:handler restore!
@@ -33,7 +29,15 @@
 (defn save! []
   (POST "/state"
         {:params (dump)
-         :handler save-handler
+         :handler handler
          :format :edn
          :timeout 10000
          :response-format :raw}))
+
+(defn save-if-recording! []
+  (if hist/*record-active*
+    (save!)))
+
+(defn setup! []
+  (load!)
+  (add-watch st/app-state :auto-save save-if-recording!))

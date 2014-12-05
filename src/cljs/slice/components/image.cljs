@@ -17,7 +17,7 @@
 
 (defn component []
   (let [{:keys [src x y]} (get-image)]
-    [:div.image.layer
+    [:div.sl__image.sl__layer
      {:on-mouse-down m/mouse-down
       :on-mouse-up   m/mouse-up
       :on-mouse-move (m/mouse-move move-image)
