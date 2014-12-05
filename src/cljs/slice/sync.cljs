@@ -3,12 +3,15 @@
             [clojure.zip :as zip]
             [historian.core :as hist]
             [slice.css :as css]
+            [slice.document :as doc]
             [slice.components.document :as cdoc]
             [ajax.core :refer [GET POST]]))
 
 (defn dump []
   {:state (dissoc @st/app-state :document)
-   :document (zip/root (st/get-state :document))
+   :document (-> (doc/get-document)
+                 (doc/edit-protected doc/make-non-current)
+                 zip/root)
    :html (cdoc/document)
    :css (css/stylesheet)})
 
