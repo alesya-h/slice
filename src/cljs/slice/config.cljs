@@ -50,6 +50,7 @@
                  "t" #(d/set-tag-name!)
                  "Down"  #(d/change! zip/next)
                  "Up"    #(d/change! zip/prev)
+                 "1" #(d/set-attribute!)
                  }
       #{:ctrl} {
                 "r" #(st/redo!)

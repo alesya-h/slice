@@ -90,6 +90,14 @@
 (defn collapse-or-expand-current! []
   (change! edit-protected update-in [:collapsed] not))
 
+(defn set-attribute! []
+  (let [node (document-node)
+        attribute (u/ask! "Attribute:" "")
+        old-attribute (get (-> node :attrs) attribute)
+        new-attribute (u/ask! (str attribute ":") old-attribute)]
+    (if new-attribute
+      (change! edit-protected assoc-in [:attrs attribute] new-attribute))))
+
 (defn set-tag-name! []
   (let [current-tag (:tag (document-node))
         new-tag (u/ask! "New tag name:" (name current-tag))]

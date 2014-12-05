@@ -10,7 +10,7 @@
   (js/alert (apply str args)))
 
 (defn ask! [text value]
-  (js/prompt text value))
+  (js/prompt text (str value)))
 
 (defn in-bounds [min-val value max-val]
   (min (max min-val value)
