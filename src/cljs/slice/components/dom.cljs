@@ -13,11 +13,13 @@
   (if (associative? the-tag)
     (let [{:keys [tag classes current attrs content collapsed]} the-tag]
       [:div {:class (str "sl__tag" (if current " sl__current"))}
-       [:span.sl__tag-name (label tag classes attrs)]
-       (if collapsed
-         "..."
-         (map render-tag content))])))
+       (cons
+        ^{:key :tag-name} [:span.sl__tag-name (label tag classes attrs)]
+        (if collapsed
+          ["..."]
+          (for [i (range (count content))]
+            ^{:key i} [render-tag (get content i)])))])))
 
 (defn component []
   [:div.sl__dom
-   (render-tag (doc/document-root))])
+   [render-tag (doc/document-root)]])

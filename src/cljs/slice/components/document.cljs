@@ -23,7 +23,8 @@
   (if (associative? the-tag)
     (let [{:keys [tag attrs content]} (preprocess the-tag)]
       (into [tag attrs]
-            (map display-tag content)))
+            (for [i (range (count content))]
+              ^{:key i} (display-tag (get content i)))))
     the-tag))
 
 (defn display-tags [tags]

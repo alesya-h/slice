@@ -4,6 +4,7 @@
 
 (defn mark-current [current-idx]
   (fn [idx {:keys [attribute unit value]}]
+    ^{:key idx}
     [:tr {:class (if (= idx current-idx) "sl__current")}
      [:td (str attribute ": ")]
      [:td (str value unit)]]))
