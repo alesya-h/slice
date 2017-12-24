@@ -11,7 +11,7 @@
 
 (defn configure! []
   (reset! st/app-state
-          {:image {:x 0 :y 0 :src "/images/home_signed.jpg"}
+          {:image {:x 0 :y 0 :src "/images/reference.png"}
            :mouse-old {:x 0 :y 0}
            :tools {:x 50 :y 50}
            :mouse-moving false
