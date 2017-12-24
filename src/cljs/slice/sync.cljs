@@ -5,7 +5,8 @@
             [slice.css :as css]
             [slice.document :as doc]
             [slice.components.document :as cdoc]
-            [ajax.core :refer [GET POST]]))
+            [ajax.core :refer [GET POST]]
+            [ajax.edn :as ajax-edn]))
 
 (defn dump []
   {:state (dissoc @st/app-state :document)
@@ -24,7 +25,7 @@
   (GET "/state"
        {:handler restore!
         :timeout 10000
-        :response-format :edn}))
+        :response-format (ajax-edn/edn-response-format)}))
 
 (defn handler [response]
   (.log js/console (str response)))
@@ -33,7 +34,7 @@
   (POST "/state"
         {:params (dump)
          :handler handler
-         :format :edn
+         :format (ajax-edn/edn-request-format)
          :timeout 10000
          :response-format :raw}))
 

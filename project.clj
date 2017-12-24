@@ -6,34 +6,29 @@
 
   :source-paths ["src/clj" "src/cljs"]
 
-  :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/core.async "0.1.346.0-17112a-alpha"]
-                 [reagent "0.4.2"]
-                 [reagent-utils "0.1.0"]
-                 [com.cognitect/transit-cljs "0.8.192"]
-                 [com.cognitect/transit-clj "0.8.259"]
+  :dependencies [[org.clojure/clojure "1.9.0"]
+                 [reagent "0.6.0"]
+                 ;; [reagent-utils "0.1.0"]
                  [hiccup "1.0.5"]
-                 [cljs-ajax "0.3.3"]
-                 [reagent/reagent-cursor "0.1.0"]
-                 [secretary "1.2.0"]
-                 [historian "1.0.7"]
-                 [org.clojure/clojurescript "0.0-2371" :scope "provided"]
-                 [com.cemerick/piggieback "0.1.3"]
-                 [weasel "0.4.0-SNAPSHOT"]
-                 [ring "1.3.1"]
-                 [ring/ring-defaults "0.1.2"]
-                 [compojure "1.2.0"]
-                 [selmer "0.7.2"]
-                 [garden "1.2.5"]
-                 [environ "1.0.0"]
-                 [leiningen "2.5.0"]
-                 [figwheel "0.1.5-SNAPSHOT"]
-                 [prone "0.6.0"]]
+                 [cljs-ajax "0.7.3"]
+                 [historian "1.1.1"]
+                 [org.clojure/clojurescript "1.9.946"]
+                 [com.cemerick/piggieback "0.2.2"]
+                 [weasel "0.7.0"]
+                 [ring "1.6.3"]
+                 [ring/ring-defaults "0.3.1"]
+                 [compojure "1.6.0"]
+                 [selmer "1.11.3"]
+                 [garden "1.3.3"]
+                 [environ "1.1.0"]
+                 [leiningen "2.7.1"]
+                 [prone "1.1.4"]]
 
   :plugins [
-            [lein-cljsbuild "1.0.3"]
-            [lein-environ "1.0.0"]
-            [lein-ring "0.8.13"]
+            [lein-figwheel "0.5.14"]
+            [lein-cljsbuild "1.1.7"]
+            [lein-environ "1.1.0"]
+            [lein-ring "0.12.2"]
             [cider/cider-nrepl "0.8.1"]
             [lein-asset-minifier "0.2.0"]]
 
@@ -50,7 +45,7 @@
   :cljsbuild {:builds {:app {:source-paths ["src/cljs"]
                              :compiler {:output-to     "resources/public/js/app.js"
                                         :output-dir    "resources/public/js/out"
-                                        :source-map    "resources/public/js/out.js.map"
+                                        :source-map    true ;"resources/public/js/out.js.map"
                                         :externs       ["react/externs/react.js"]
                                         :optimizations :none
                                         :pretty-print  true}}}}
@@ -68,7 +63,6 @@
                                 (pjstadig.humane-test-output/activate!)]
 
                    :figwheel {:http-server-root "public"
-                              :port 3449
                               :css-dirs ["resources/public/css"]}
 
                    :env {:dev? true}
