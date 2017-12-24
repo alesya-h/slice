@@ -1,0 +1,13 @@
+.foo {
+  border: 1px black solid;
+  margin: 42px;
+  min-width: 100px;
+  min-height: 200px;
+}
+
+.bar {
+  margin: 20px;
+  background: white;
+  height: 150px;
+  width: 80%;
+}
